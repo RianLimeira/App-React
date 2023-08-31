@@ -12,7 +12,7 @@ export default function TopTabsRouter(){
                 headerShown: true,
                 headerStyle: {
                     backgroundColor: 'red',
-                    paddingTop: 130,
+                    
                     
                   },
             }} name="Home" component={Home} />
