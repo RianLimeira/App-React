@@ -6,8 +6,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StackRouter />
-      {/* <DrawerRouter /> */}
+      {/* <StackRouter /> */}
+      <DrawerRouter />
     </NavigationContainer>
   );
 }
