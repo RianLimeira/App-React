@@ -10,7 +10,6 @@ import TextInformation from './src/components/TextInformation';
 const ViewStyled = styled(View);
 const ButtonStyled = styled(TouchableOpacity);
 
-
 // let count = 0;
 
 export default function App() {
