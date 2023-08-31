@@ -4,11 +4,12 @@ import {styles} from './src/theme'
 import {Container, Title, SubTitle} from './src/theme/style'
 import { styled } from 'nativewind';
 import { Text, TouchableOpacity, View } from 'react-native';
+import TextInformation from './src/components/TextInformation';
 
 
 const ViewStyled = styled(View);
 const ButtonStyled = styled(TouchableOpacity);
-const TextStyled = styled(Text);
+
 
 // let count = 0;
 
@@ -17,7 +18,7 @@ export default function App() {
 
   // Nos [] é as dependencias (variaveis) que salvará
   // Nos {} é passado comandos
-  useEffect( () => {alert('Mudanca da variavel salva ' + count)},[count]);
+  // useEffect( () => {alert('Mudanca da variavel salva ' + count)},[count]);
 
   return (
     <ViewStyled className='flex-1 items-center justify-center bg-black'>
@@ -27,17 +28,10 @@ export default function App() {
       <ButtonStyled className='bg-white rounded-md' onPress={() =>{
         setCount(count+1);
       }}>
-        <TextStyled className='text-black text-sm'>
-          Incremento
-        </TextStyled>
+        <TextInformation title='Componentes Nativos Personalizados'/>
+        <TextInformation title='Incremento +1'/>
       </ButtonStyled>
-      <ButtonStyled className='bg-white rounded-md' onPress={() =>{
-        setCount(count-1);
-      }}>
-        <TextStyled className='text-black text-sm'>
-          Decremento
-        </TextStyled>
-      </ButtonStyled>
+
     </ViewStyled>
   );
 }
