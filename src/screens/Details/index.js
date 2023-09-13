@@ -11,7 +11,7 @@ export default function Details(){
             <Text className='text-red-500'> Detalhes de um produto...</Text>
             
             <Button title="Ir para Home" onPress={() => {
-                navigation.navigate('Home')
+                navigation.navigate('Inicio')
             }} />
         </View>
     )

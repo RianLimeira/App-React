@@ -9,9 +9,9 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* <StackRouter /> */}
-      {/* <DrawerRouter /> */}
+      <DrawerRouter />
       {/* <TopTabsRouter /> */}
-      <BottomTabsRouter />
+      {/* <BottomTabsRouter /> */}
     </NavigationContainer>
   );
 }

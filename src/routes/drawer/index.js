@@ -13,10 +13,13 @@ export default function DrawerRouter(){
                 headerStyle: {
                     backgroundColor: 'red',
                   },
-            }} name="Home" component={Home} />
+            }} name="Inicio" component={Home} />
             <Drawer.Screen options={{
-                headerTitle: 'Detalhes Produtos'
-            }} name="Details" component={Details} />
+                headerTitle: 'Detalhes Produtos',
+                headerStyle: {
+                    backgroundColor: 'red',              
+                  },
+            }} name="Detalhes" component={Details} />
         </Drawer.Navigator>
     )
 }

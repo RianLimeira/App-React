@@ -15,7 +15,10 @@ export default function BottomTabsRouter(){
                   },
             }} name="Home" component={Home} />
             <BottomTabs.Screen options={{
-                headerTitle: 'Detalhes Produtos'
+                headerTitle: 'Detalhes Produtos',
+                headerStyle: {
+                    backgroundColor: 'red',              
+                  },
             }} name="Details" component={Details} />
         </BottomTabs.Navigator>
     )
