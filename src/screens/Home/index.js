@@ -40,7 +40,7 @@ export default function Home(){
             }} />
             <FlatList data={DATA} renderItem={({ index, item}) => (
                 <Card title={item.title} image={item.bannerURL} />
-            ) } keyExtractor={(item, index) => index} />
+            ) } keyExtractor={(item, index) => index} horizontal/>
 
            
         </View> 
