@@ -1,35 +1,48 @@
 import { Button, FlatList, SectionList, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
 
+const DATA=[
+    {
+        title:'Como trabalhar com React Native',
+        bannerURL: 'https://github.com/RianLimeira.png',
+    },
+    {
+        title:'Como trabalhar com Expo?',
+        bannerURL: 'https://github.com/RianLimeira.png',
+    },
+    {
+        title:'Como trabalhar com Listas',
+        bannerURL: 'https://github.com/RianLimeira.png'
+    },
+    {
+        title:'Como trabalhar com React Native',
+        bannerURL: 'https://github.com/RianLimeira.png',
+    },
+    {
+        title:'Como trabalhar com Expo?',
+        bannerURL: 'https://github.com/RianLimeira.png',
+    },
+    {
+        title:'Como trabalhar com Listas',
+        bannerURL: 'https://github.com/RianLimeira.png'
+    },
+]
+
 export default function Home(){
-    const DATA=[
-        {
-            title:'Como trabalhar com React Native',
-            bannerURL: 'https://github.com/RianLimeira.png',
-        },
-        {
-            title:'Como trabalhar com Expo?',
-            bannerURL: 'https://github.com/RianLimeira.png',
-        },
-        {
-            title:'Como trabalhar com Listas',
-            bannerURL: 'https://github.com/RianLimeira.png'
-        },
-        {
-            title:'Como trabalhar com React Native',
-            bannerURL: 'https://github.com/RianLimeira.png',
-        },
-        {
-            title:'Como trabalhar com Expo?',
-            bannerURL: 'https://github.com/RianLimeira.png',
-        },
-        {
-            title:'Como trabalhar com Listas',
-            bannerURL: 'https://github.com/RianLimeira.png'
-        },
-    ]
+
+    const [data, setData] = useState([]);
+    
     const navigation = useNavigation();
+
+    useEffect(() => {
+        fetch('https://jsonplaceholder.typicode.com/photos').then((res) => res.json().then(json => setData(json))).catch(err => console.warn(err));
+    },[]);
+    // Exemplo com axios
+    // useEffect(() => {
+    //     axios.get('https://jsonplaceholder.typicode.com/photos').then(res => setData(res.data)).catch(err => console.warn(err));
+    // },[]);
 
     return(
         <View className='flex-1 items-center bg-black'>
@@ -38,8 +51,9 @@ export default function Home(){
             <Button title="Ir para os produtos-detalhes" onPress={() => {
                 navigation.navigate('Detalhes')
             }} />
-            <FlatList data={DATA} renderItem={({ index, item}) => (
-                <Card title={item.title} image={item.bannerURL} />
+            {/* data.slice() faz com que limite a quantidade de items na tela */}
+            <FlatList data={data.slice(0,6)} renderItem={({ index, item}) => (
+                <Card title={[`Cidade: ${item.title} `]} image={item.url} />
             ) } keyExtractor={(item, index) => index} />
 
            {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
