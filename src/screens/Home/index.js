@@ -1,31 +1,31 @@
-import { Button, FlatList, Text, View } from "react-native";
+import { Button, FlatList, SectionList, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Card } from "../../components/Card";
 
 export default function Home(){
     const DATA=[
         {
-            title:'Como trabalhar com React Native',
+            data:['Como trabalhar com React Native'],
             bannerURL: 'https://github.com/RianLimeira.png',
         },
         {
-            title:'Como trabalhar com Expo?',
+            data:['Como trabalhar com Expo?'],
             bannerURL: 'https://github.com/RianLimeira.png',
         },
         {
-            title:'Como trabalhar com Listas',
+            data:['Como trabalhar com Listas'],
             bannerURL: 'https://github.com/RianLimeira.png'
         },
         {
-            title:'Como trabalhar com React Native',
+            data:['Como trabalhar com React Native'],
             bannerURL: 'https://github.com/RianLimeira.png',
         },
         {
-            title:'Como trabalhar com Expo?',
+            data:['Como trabalhar com Expo?'],
             bannerURL: 'https://github.com/RianLimeira.png',
         },
         {
-            title:'Como trabalhar com Listas',
+            data:['Como trabalhar com Listas'],
             bannerURL: 'https://github.com/RianLimeira.png'
         },
     ]
@@ -38,11 +38,13 @@ export default function Home(){
             <Button title="Ir para os produtos-detalhes" onPress={() => {
                 navigation.navigate('Detalhes')
             }} />
-            <FlatList data={DATA} renderItem={({ index, item}) => (
+            {/* <FlatList data={DATA} renderItem={({ index, item}) => (
                 <Card title={item.title} image={item.bannerURL} />
-            ) } keyExtractor={(item, index) => index} numColumns={2}/>
+            ) } keyExtractor={(item, index) => index} numColumns={2}/> */}
 
-           
+           <SectionList  sections={DATA} renderItem={({ index, item}) => (
+                <Card title={item} image={item} />
+           )} keyExtractor={(item, index) => index} />
         </View> 
              
         )
