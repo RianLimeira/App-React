@@ -2,6 +2,9 @@ import { Button, FlatList, SectionList, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
 
 const DATA=[
     {
@@ -36,13 +39,25 @@ export default function Home(){
     
     const navigation = useNavigation();
 
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/photos').then((res) => res.json().then(json => setData(json))).catch(err => console.warn(err));
-    },[]);
-    // Exemplo com axios
     // useEffect(() => {
-    //     axios.get('https://jsonplaceholder.typicode.com/photos').then(res => setData(res.data)).catch(err => console.warn(err));
+    //     fetch('https://jsonplaceholder.typicode.com/photos').then((res) => res.json().then(json => setData(json))).catch(err => console.warn(err));
     // },[]);
+
+    // Exemplo com axios
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/photos').then(res => {
+            setData(res.data);
+            saveData(res.data)
+        }).catch(err => console.warn(err));
+    },[]);
+
+    // async storage armazena somente dados simples
+    // Para guardar um JSON, se converte para uma string simples
+    async function saveData(json){
+        const string = JSON.stringify(json)
+        await AsyncStorage.setItem('@rianApp:users',string)
+        alert('Usuario salvo na memoria');
+    }
 
     return(
         <View className='flex-1 items-center bg-black'>
@@ -53,7 +68,7 @@ export default function Home(){
             }} />
             {/* data.slice() faz com que limite a quantidade de items na tela */}
             <FlatList data={data.slice(0,6)} renderItem={({ index, item}) => (
-                <Card title={[`Cidade: ${item.title} `]} image={item.url} />
+                <Card title={[`Title: ${item.title} `]} image={item.url} />
             ) } keyExtractor={(item, index) => index} />
 
            {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
