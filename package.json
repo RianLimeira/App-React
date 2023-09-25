@@ -6,10 +6,12 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "dev": "nodemon ./src/config/server"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@prisma/client": "^5.3.1",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "prisma": "^5.3.1",
     "tailwindcss": "3.3.2"
   },
   "private": true

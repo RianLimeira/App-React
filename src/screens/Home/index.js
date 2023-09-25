@@ -45,19 +45,18 @@ export default function Home(){
 
     // Exemplo com axios
     useEffect(() => {
-        axios.get('https://jsonplaceholder.typicode.com/photos').then(res => {
-            setData(res.data);
-            saveData(res.data)
+        axios.get('http://192.168.100.58:8080/users').then(res => {
+            setData(res.data.users);
         }).catch(err => console.warn(err));
     },[]);
 
     // async storage armazena somente dados simples
     // Para guardar um JSON, se converte para uma string simples
-    async function saveData(json){
-        const string = JSON.stringify(json)
-        await AsyncStorage.setItem('@rianApp:users',string)
-        alert('Usuario salvo na memoria');
-    }
+    // async function saveData(json){
+    //     const string = JSON.stringify(json)
+    //     await AsyncStorage.setItem('@rianApp:users',string)
+    //     alert('Usuario salvo na memoria');
+    // }
 
     return(
         <View className='flex-1 items-center bg-black'>
@@ -67,8 +66,8 @@ export default function Home(){
                 navigation.navigate('Detalhes')
             }} />
             {/* data.slice() faz com que limite a quantidade de items na tela */}
-            <FlatList data={data.slice(0,6)} renderItem={({ index, item}) => (
-                <Card title={[`Title: ${item.title} `]} image={item.url} />
+            <FlatList data={data} renderItem={({ index, item }) => (
+                <Card title={`Nome: ${item.name}`} image={item.photo} />
             ) } keyExtractor={(item, index) => index} />
 
            {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
