@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import DrawerRouter from "./src/routes/drawer";
 
-import firebase from './src/config/firebase/index.js';
+// import './src/config/firebase/';
 
 export default function App() {
 
