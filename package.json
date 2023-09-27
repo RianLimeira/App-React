@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "dev": "nodemon ./src/config/server"
   },
   "dependencies": {
     "@expo/config-plugins": "^7.2.5",
@@ -35,8 +36,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.19.6",
-    "styled-components": "^6.0.4",
-    "expo-updates": "~0.18.14"
+    "styled-components": "^6.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
