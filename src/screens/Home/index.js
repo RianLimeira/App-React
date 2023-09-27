@@ -74,11 +74,14 @@ export default function Home() {
     // }
 
     return (
-        <View className='flex-1 items-center bg-black'>
+        <View className='flex flex-1 items-center bg-black'>
             <Text className='text-right right-28 mb-4 ml-1 mt-2 text-red-500'> Bem vindo a Home!!!</Text>
 
             <Button title="Ir para os produtos-detalhes" onPress={() => {
                 navigation.navigate('Detalhes')
+            }} />
+            <Button title="Ir para animações" onPress={() => {
+                navigation.navigate('Animations')
             }} />
             {/* data.slice() faz com que limite a quantidade de items na tela */}
             <FlatList data={data} renderItem={({ index, item }) => (
