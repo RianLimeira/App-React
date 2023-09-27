@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card } from "../../components/Card";
 
+import { getDatabase, ref, set } from "firebase/database";
+
 
 
 export default function Details() {
@@ -23,20 +25,31 @@ export default function Details() {
   //   setData(json);
   // }
 
-  async function handleCreateUser(){
-    fetch('http://192.168.100.58:8080/user', {
-        method: 'POST',
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({
-            name,
-            email,
-            password,
-            photo: 'https://github.com/RianLimeira.png'
-        })
-    }).then(() => alert('User criado')).catch(() => alert('User nao pode ser cadastrado'));
-}
+  async function handleCreateUser() {
+    //Firebase 
+    const db = getDatabase();
+    // userId pode usar também o uuid
+    const userId = new Date().getMilliseconds() + new Date().getDay();
+    set(ref(db, 'users/' + userId), {
+      name,
+      email,
+      password
+    }).then(() => alert('user create')).catch(err => console.warn(err));
+
+    // Mysql
+    // fetch('http://192.168.100.58:8080/user', {
+    //     method: 'POST',
+    //     headers: {
+    //         "content-type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //         name,
+    //         email,
+    //         password,
+    //         photo: 'https://github.com/RianLimeira.png'
+    //     })
+    // }).then(() => alert('User criado')).catch(() => alert('User nao pode ser cadastrado'));
+  }
 
   const navigation = useNavigation();
 

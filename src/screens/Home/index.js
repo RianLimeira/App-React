@@ -5,38 +5,39 @@ import { Card } from "../../components/Card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
+import { getDatabase, ref, get, child } from "firebase/database";
 
-const DATA=[
+const DATA = [
     {
-        title:'Como trabalhar com React Native',
+        title: 'Como trabalhar com React Native',
         bannerURL: 'https://github.com/RianLimeira.png',
     },
     {
-        title:'Como trabalhar com Expo?',
+        title: 'Como trabalhar com Expo?',
         bannerURL: 'https://github.com/RianLimeira.png',
     },
     {
-        title:'Como trabalhar com Listas',
+        title: 'Como trabalhar com Listas',
         bannerURL: 'https://github.com/RianLimeira.png'
     },
     {
-        title:'Como trabalhar com React Native',
+        title: 'Como trabalhar com React Native',
         bannerURL: 'https://github.com/RianLimeira.png',
     },
     {
-        title:'Como trabalhar com Expo?',
+        title: 'Como trabalhar com Expo?',
         bannerURL: 'https://github.com/RianLimeira.png',
     },
     {
-        title:'Como trabalhar com Listas',
+        title: 'Como trabalhar com Listas',
         bannerURL: 'https://github.com/RianLimeira.png'
     },
 ]
 
-export default function Home(){
+export default function Home() {
 
     const [data, setData] = useState([]);
-    
+
     const navigation = useNavigation();
 
     // useEffect(() => {
@@ -45,10 +46,24 @@ export default function Home(){
 
     // Exemplo com axios
     useEffect(() => {
-        axios.get('http://192.168.100.58:8080/users').then(res => {
-            setData(res.data.users);
-        }).catch(err => console.warn(err));
-    },[]);
+        //Firebase Consulta
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(Object.values(snapshot.val()));
+                setData(Object.values(snapshot.val()));
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+
+        //MySql
+        // axios.get('http://192.168.100.58:8080/users').then(res => {
+        //     setData(res.data.users);
+        // }).catch(err => console.warn(err));
+    }, []);
 
     // async storage armazena somente dados simples
     // Para guardar um JSON, se converte para uma string simples
@@ -58,7 +73,7 @@ export default function Home(){
     //     alert('Usuario salvo na memoria');
     // }
 
-    return(
+    return (
         <View className='flex-1 items-center bg-black'>
             <Text className='text-right right-28 mb-4 ml-1 mt-2 text-red-500'> Bem vindo a Home!!!</Text>
 
@@ -68,12 +83,12 @@ export default function Home(){
             {/* data.slice() faz com que limite a quantidade de items na tela */}
             <FlatList data={data} renderItem={({ index, item }) => (
                 <Card title={`Nome: ${item.name}`} image={item.photo} />
-            ) } keyExtractor={(item, index) => index} />
+            )} keyExtractor={(item, index) => index} />
 
-           {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
+            {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
                 <Card title={item} image={item.bannerURL} />
            )} keyExtractor={(item, index) => index} /> */}
-        </View> 
-             
-        )
-    }
+        </View>
+
+    )
+}
