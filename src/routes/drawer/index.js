@@ -15,12 +15,12 @@ export default function DrawerRouter(){
                     backgroundColor: 'red',
                   },
             }} name="Inicio" component={Home} />
-            {/* <Drawer.Screen options={{
+            <Drawer.Screen options={{
                 headerTitle: 'Detalhes Produtos',
                 headerStyle: {
                     backgroundColor: 'red',              
                   },
-            }} name="Detalhes" component={Details} /> */}
+            }} name="Detalhes" component={Details} />
 
             <Drawer.Screen options={{
                 headerTitle: 'Animações',
