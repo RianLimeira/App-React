@@ -23,7 +23,7 @@ app.post('/user', async (req,res) => {
             name,
             email,
             password,
-            photo
+            photo: 'https://github.com/RianLimeira.png'
         }
     })
     return res.status(200).json({

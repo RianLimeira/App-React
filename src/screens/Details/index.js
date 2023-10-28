@@ -33,7 +33,8 @@ export default function Details() {
     set(ref(db, 'users/' + userId), {
       name,
       email,
-      password 
+      password,
+      photo: 'https://github.com/RianLimeira.png'
     }).then(() => alert('user create')).catch(err => console.warn(err));
 
     // Mysql

@@ -86,7 +86,7 @@ export default function Home() {
             }} />
             {/* data.slice() faz com que limite a quantidade de items na tela */}
             <FlatList data={data} renderItem={({ index, item }) => (
-                <Card title={`Nome: ${item.name}`} image={item.photo} />
+                <Card title={`Nome: ${item.name}`} image={'https://github.com/RianLimeira.png'} />
             )} keyExtractor={(item, index) => index} />
 
             {/* <SectionList sections={DATA} renderItem={({ index, item}) => (

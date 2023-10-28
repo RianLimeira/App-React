@@ -7,11 +7,8 @@ import './src/config/Firebase';
 export default function App() {
 
   return (
-    <NavigationContainer>
-      {/* <StackRouter /> */}
+    <NavigationContainer>     
       <DrawerRouter />
-      {/* <TopTabsRouter /> */}
-      {/* <BottomTabsRouter /> */}
     </NavigationContainer>
   );
 }
