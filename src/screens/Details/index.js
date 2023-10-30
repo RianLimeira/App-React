@@ -14,7 +14,7 @@ import { Card } from "../../components/Card";
 import { getDatabase, ref, set } from "firebase/database";
 
 export default function Details() {
-  const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,31 +31,31 @@ export default function Details() {
 
   async function handleCreateUser() {
     //Firebase
-    const db = getDatabase();
-    // userId pode usar também o uuid
-    const userId = new Date().getMilliseconds() + new Date().getDay();
-    set(ref(db, "users/" + userId), {
-      name,
-      email,
-      password,
-      photo: "https://github.com/RianLimeira.png",
-    })
-      .then(() => alert("user create"))
-      .catch((err) => console.warn(err));
+    // const db = getDatabase();
+    // // userId pode usar também o uuid
+    // const userId = new Date().getMilliseconds() + new Date().getDay();
+    // set(ref(db, "users/" + userId), {
+    //   name,
+    //   email,
+    //   password,
+    //   photo: "https://github.com/RianLimeira.png",
+    // })
+    //   .then(() => alert("user create"))
+    //   .catch((err) => console.warn(err));
 
     // Mysql
-    // fetch('http://192.168.100.58:8080/user', {
-    //     method: 'POST',
-    //     headers: {
-    //         "content-type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         name,
-    //         email,
-    //         password,
-    //         photo: 'https://github.com/RianLimeira.png'
-    //     })
-    // }).then(() => alert('User criado')).catch(() => alert('User nao pode ser cadastrado'));
+    await fetch('http://192.168.100.141:8081/create', {
+        method: 'POST',
+        headers: {
+            'Accept': "application/json",
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            nameUser: user,
+            emailUser: email,
+            passwordUser: password
+        })
+    }).then(() => alert('User criado')).catch(() => alert('User nao pode ser cadastrado'));
   }
 
   const navigation = useNavigation();
@@ -67,9 +67,10 @@ export default function Details() {
         Criar novo usuario{" "}
       </Text>
       {/* <FlatList data={data} renderItem={({ index, item }) => (
-            <Card title={`Cidade: ${item.address.city}`} image={'https://github.com/Caio18-cosenza.png'} />
+            <Card title={`Cidade: ${item.address.city}`} image={'https://github.com/RianLimeira.png'} />
            )} keyExtractor={(item, index) => index} /> */}
       <TextInput
+        //onChangeText = salva na variavel ao inserir algo 
         onChangeText={(t) => setName(t)}
         className="bg-white w-[80%] h-[30px] mt-2 rounded-sm ml-2 pl-2"
         placeholder="Nome"
