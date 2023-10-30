@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import {Image, View, TouchableOpacity,Text} from "react-native";
-import {css} from "../../assets/css";
+import {css} from "../theme/css";
 
 
 export default function Home({navigation}) {
@@ -9,7 +9,7 @@ export default function Home({navigation}) {
         <View style={css.container}>
 
             <View style={css.header}>
-                <Image style={css.header__img} source={require('../assets/img/logo.png')} />
+                <Image style={css.header__img} source={require('../../assets/Images/logo.png')} />
             </View>
 
             <View style={css.footer}>

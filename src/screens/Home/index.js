@@ -1,4 +1,4 @@
-import { Button, FlatList, SectionList, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/Card";
@@ -74,20 +74,33 @@ export default function Home() {
     //     alert('Usuario salvo na memoria');
     // }
 
+    const Separator = () => (
+        <View style={styles.separator} />
+      );
+      
+      const styles = StyleSheet.create({
+        separator: {
+          marginVertical: 8,
+        },
+      });
+
     return (
         <View className='flex flex-1 items-center bg-black'>
             <Text className='text-right right-28 mb-4 ml-1 mt-2 text-red-500'> Bem vindo a Home!!!</Text>
+            <Image className='w-screen h-52 mb-8' source={require('../../../assets/Images/logo.png')} />
 
-            <Button title="Ir para os produtos-detalhes" onPress={() => {
+            <Button className='mb-8' title="ADICIONAR" onPress={() => {
                 navigation.navigate('Detalhes')
             }} />
+            <Separator />
             <Button title="Ir para animações" onPress={() => {
                 navigation.navigate('Animations')
             }} />
+            
             {/* data.slice() faz com que limite a quantidade de items na tela */}
-            <FlatList data={data} renderItem={({ index, item }) => (
+            {/* <FlatList data={data} renderItem={({ index, item }) => (
                 <Card title={`Nome: ${item.name}`} image={'https://github.com/RianLimeira.png'} />
-            )} keyExtractor={(item, index) => index} />
+            )} keyExtractor={(item, index) => index} /> */}
 
             {/* <SectionList sections={DATA} renderItem={({ index, item}) => (
                 <Card title={item} image={item.bannerURL} />
