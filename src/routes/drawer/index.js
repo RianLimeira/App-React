@@ -16,7 +16,7 @@ export default function DrawerRouter(){
                   },
             }} name="Inicio" component={Home} />
             <Drawer.Screen options={{
-                headerTitle: 'Detalhes Produtos',
+                headerTitle: 'Adicionar',
                 headerStyle: {
                     backgroundColor: 'red',              
                   },
