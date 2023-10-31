@@ -2,12 +2,21 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "../../screens/Home";
 import Details from "../../screens/Details";
 import Animation from "../../screens/Animation";
+import Login from "../../screens/Login";
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRouter(){
     return(
-        <Drawer.Navigator>
+        <Drawer.Navigator initialRouteName="Login">
+            <Drawer.Screen options={{
+                headerTitle: 'Login',
+                headerShown:false,
+                headerStyle: {
+                    backgroundColor: 'red',
+                },
+            }} name="Login" component={Login} />
+
             <Drawer.Screen options={{
                 headerTitle: 'Tela Inicial',
                 headerShown: true,
@@ -15,6 +24,7 @@ export default function DrawerRouter(){
                     backgroundColor: 'red',
                   },
             }} name="Inicio" component={Home} />
+
             <Drawer.Screen options={{
                 headerTitle: 'Adicionar',
                 headerStyle: {
@@ -28,6 +38,7 @@ export default function DrawerRouter(){
                     backgroundColor: 'red',
                 },
             }} name="Animations" component={Animation} />
+            
         </Drawer.Navigator>
     )
 }

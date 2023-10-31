@@ -1,10 +1,10 @@
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
+import express, { json } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
 const prisma = new PrismaClient()
 
-app.use(express.json())
+app.use(json())
 
 const PORT = process.env.PORT || 8080;
 
