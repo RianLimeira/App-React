@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
 import {
-  Button,
+  Keyboard,
   Text,
   View,
-  Image,
+
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -30,7 +30,7 @@ export default function Login() {
       }),
     });
     let ress = await reqs.json();
-    // setMessage(ress);
+    Keyboard.dismiss();
     
     if(ress.error ==false){
       console.log("vc se autenticou");
@@ -39,6 +39,9 @@ export default function Login() {
     }
     else{
       setMessage(ress.message);
+      setTimeout(() =>{
+        setMessage(null);
+      }, 5000);
     }
   }
 
