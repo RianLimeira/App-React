@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Keyboard,
   Text,
   View,
-
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -16,7 +15,21 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
 
+  useEffect(() => {
+    // Limpa o campo de email e password quando a tela é focada
+    const unsubscribe = navigation.addListener("focus", () => {
+      setEmail("");
+      setPassword("");
+    });
+
+    // Limpa o listener quando a tela é desmontada
+    return unsubscribe;
+  }, [navigation]);
+
+
+
   async function handleGetUser() {
+    console.log(users);
     // Mysql
     let reqs = await fetch("http://192.168.100.141:8080/login", {
       method: "POST",
@@ -31,15 +44,14 @@ export default function Login() {
     });
     let ress = await reqs.json();
     Keyboard.dismiss();
-    
-    if(ress.error ==false){
+
+    if (ress.error == false) {
       console.log("vc se autenticou");
       setMessage(ress.message);
-      navigation.navigate('Inicio');
-    }
-    else{
+      navigation.navigate("Drawer", { screen: "Inicio" });
+    } else {
       setMessage(ress.message);
-      setTimeout(() =>{
+      setTimeout(() => {
         setMessage(null);
       }, 5000);
     }
@@ -58,11 +70,13 @@ export default function Login() {
                )} keyExtractor={(item, index) => index} /> */}
       {message && <Text className="text-white w-[50%]">{message}</Text>}
       <TextInput
+        value={email}
         onChangeText={(t) => setEmail(t)}
         className="bg-white w-[80%] h-[30px] mt-4 rounded-sm ml-2 pl-2"
         placeholder="Email"
       />
       <TextInput
+        value={password}
         onChangeText={(t) => setPassword(t)}
         className="bg-white w-[80%] h-[30px] mt-4 rounded-sm ml-2 pl-2"
         placeholder="Senha"
