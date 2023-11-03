@@ -63,7 +63,7 @@ export default function Add() {
     let reqs = await fetch("http://192.168.100.141:8080/create", {
       method: "POST",
       headers: {
-        Accept: "application/json",
+        'Accept': "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
