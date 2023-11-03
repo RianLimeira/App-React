@@ -48,7 +48,7 @@ export default function Login() {
     if (ress.error == false) {
       console.log("vc se autenticou");
       setMessage(ress.message);
-      navigation.navigate("Drawer", { screen: "Inicio" });
+      navigation.navigate("Drawer", { screen: "Home" });
     } else {
       setMessage(ress.message);
       setTimeout(() => {
@@ -84,7 +84,7 @@ export default function Login() {
       <View className="flex-row space-x-4 items-center self-center mt-6 mr-5 rounded">
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Detalhes");
+            navigation.navigate("Add");
           }}
           className="w-28 h-[40px] bg-red-600 items-center justify-center"
         >

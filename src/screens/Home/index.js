@@ -124,20 +124,12 @@ export default function Home() {
         <TouchableOpacity
           className="w-20 h-[40px] bg-red-600 items-center justify-center"
           onPress={() => {
-            navigation.navigate("Detalhes");
+            navigation.navigate("Search");
           }}
         >
-          <Text>ADICIONAR</Text>
+          <Text>BUSCAR</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          className="w-20 h-[40px] bg-red-600 items-center justify-center"
-          onPress={() => {
-            navigation.navigate("Animations");
-          }}
-        >
-          <Text> Ir para animações </Text>
-        </TouchableOpacity>
       </View>
       <Separator />
       <Button title="DESLOGAR" onPress={logout} />

@@ -1,20 +1,29 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from "../../screens/Home";
-import Details from "../../screens/Details";
+import Add from "../../screens/Add";
 import Animation from "../../screens/Animation";
 import Login from "../../screens/Login";
+import Search from '../../screens/Search';
 
 const DrawerStack = createDrawerNavigator();
 const DrawerStackScreen = () => (
-    <DrawerStack.Navigator initialRouteName="Inicio">
+    <DrawerStack.Navigator initialRouteName="Home">
         <DrawerStack.Screen options={{
             headerTitle: 'Tela Inicial',
             headerShown: true,
             headerStyle: {
                 backgroundColor: 'red',
             },
-        }} name="Inicio" component={Home} />
+        }} name="Home" component={Home} />
+
+        <DrawerStack.Screen options={{
+            headerTitle: 'Buscas',
+            headerShown: true,
+            headerStyle:{
+                backgroundColor: 'orange',
+            },
+        }} name='Search' component={Search} />
 
         <DrawerStack.Screen options={{
             headerTitle: 'Animações',
@@ -37,7 +46,7 @@ const MainStackScreen = () => (
             headerStyle: {
                 backgroundColor: 'red',              
             },
-        }} name="Detalhes" component={Details} />
+        }} name="Add" component={Add} />
     </MainStack.Navigator>
 );
 

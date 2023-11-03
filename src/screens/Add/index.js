@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 // import * as Crypto from 'expo-crypto';
 
-export default function Details() {
+export default function Add() {
   const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,7 +47,7 @@ export default function Details() {
     //       {
     //         text: "Ok",
     //         onPress: () => {
-    //           navigation.navigate("Inicio");
+    //           navigation.navigate("Home");
     //         },
     //       },
     //     ],
