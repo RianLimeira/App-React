@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import {
   Image,
@@ -13,6 +14,8 @@ import { View } from "react-native-animatable";
 export default function Search({}) {
   const navigation = useNavigation();
 
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState("");
   const [search, setSearch] = useState(null);
   const [pokemon, setPokemon] = useState(null);
   const [image, setImage] = useState(null);
@@ -20,6 +23,16 @@ export default function Search({}) {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {}, [message]);
+  useEffect(() => {
+    let user = axios
+      .get("http://192.168.100.141:8080/users")
+      .then((res) => {
+        res.data.users.forEach((element) => {
+          setUser(element["id"]);
+        });
+      })
+      .catch((err) => console.warn(err));
+  }, []);
 
   async function searchPokemon() {
     let reqs = await fetch(
@@ -62,7 +75,7 @@ export default function Search({}) {
         name: pokemon,
         price: price,
         image: image,
-        userId: 29,
+        userId: user,
         createdAt: new Date(),
         updateAt: new Date(),
       }),
