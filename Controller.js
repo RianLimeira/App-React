@@ -64,8 +64,8 @@ app.post("/create", async (req, res) => {
     password: req.body.passwordUser,
     email: req.body.emailUser,
     balance: 1000,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    // createdAt: new Date(),
+    // updatedAt: new Date(),
   })
     .then((user) => {
       res.send(
@@ -84,8 +84,6 @@ app.post("/pokemon/create", async (req, res) => {
     price: req.body.price,
     image: req.body.image,
     userId: req.body.userId,
-    createdAt: new Date(),
-    updateAt: new Date(),
   })
     .then(() => {
       console.log("Registrado");
