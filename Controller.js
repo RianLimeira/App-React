@@ -4,8 +4,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./models/index.js");
 const user = require("./models/user.js");
+const pokemon = require("./models/pokemon.js");
 
 const User = db.User;
+const Pokemon = db.Pokemon;
 
 const PORT = process.env.PORT || 8080;
 
@@ -75,10 +77,28 @@ app.post("/create", async (req, res) => {
     });
 });
 
-//Start server
-// let port = process.env.PORT || 8080;
-// app.listen(port, (req, res) => {
-//   console.log("Servidor Rodando");
-// });
+app.post("/pokemon/create", async (req, res) => {
+  console.log(req.body);
+  let reqs = await Pokemon.create({
+    name: req.body.name,
+    price: req.body.price,
+    image: req.body.image,
+    userId: req.body.userId,
+    createdAt: new Date(),
+    updateAt: new Date(),
+  })
+    .then(() => {
+      console.log("Registrado");
+      res.send(
+        JSON.stringify("Capturado com sucesso")
+      );
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send(
+        JSON.stringify("Houve um problema de conexão!")
+      )
+    });
+});
 
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));

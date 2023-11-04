@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -17,6 +17,9 @@ export default function Search({}) {
   const [pokemon, setPokemon] = useState(null);
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  useEffect(() => {}, [message]);
 
   async function searchPokemon() {
     let reqs = await fetch(
@@ -29,15 +32,50 @@ export default function Search({}) {
           "Content-Type": "application/json",
         },
       }
-    );
-    let ress = await reqs.json();
-    setPokemon(ress.name);
-    setImage(ress.sprites.front_default);
-    setPrice(ress.weight);
-    Keyboard.dismiss();
+    )
+      .then((response) => response.json())
+      .then((ress) => {
+        setPokemon(ress.name);
+        setImage(ress.sprites.front_default);
+        setPrice(ress.weight);
+        console.log("OK");
+        setMessage("Seu pokemon abaixo:");
+        Keyboard.dismiss();
+      })
+      .catch((error) => {
+        setPokemon(null);
+        setImage(null);
+        setPrice(null);
+        setMessage("Verifique o nome e tente novamente!");
+        Keyboard.dismiss();
+      });
   }
 
-  async function catchPokemon() {}
+  async function catchPokemon() {
+    let reqs = await fetch("http://192.168.100.141:8080/pokemon/create", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: pokemon,
+        price: price,
+        image: image,
+        userId: 29,
+        createdAt: new Date(),
+        updateAt: new Date(),
+      }),
+    });
+    let ress = await reqs.json();
+    setMessage(ress);
+    if (ress) {
+      setPokemon(null);
+      setImage(null);
+      setPrice(null);
+      Keyboard.dismiss();
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -65,6 +103,9 @@ export default function Search({}) {
             </Text>
           </TouchableOpacity>
         </View>
+        {message && (
+          <Text className="font-bold text-center mt-3">{message}</Text>
+        )}
         {image && (
           <View className="flex ml-6 pl-3 w-40 h-68 top-4 border-2 border-red-400">
             <Image
@@ -73,7 +114,7 @@ export default function Search({}) {
             />
             <View className="flex ml-4 mb-2">
               <Text>Nome: {pokemon}</Text>
-              <Text>R$ {price}</Text>
+              <Text>Preço: R$ {price}</Text>
             </View>
             <TouchableOpacity
               onPress={catchPokemon}
