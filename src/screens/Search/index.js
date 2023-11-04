@@ -14,21 +14,30 @@ export default function Search({}) {
   const navigation = useNavigation();
 
   const [search, setSearch] = useState(null);
-  const [pokmon, setPokemon] = useState(null);
+  const [pokemon, setPokemon] = useState(null);
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState(null);
 
   async function searchPokemon() {
-    let reqs = await fetch("https://pokeapi.co/api/v2/pokemon/" + search, {
-      method: "GET",
-      headers: {
-        'Accept': "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+    let reqs = await fetch(
+      "https://pokeapi.co/api/v2/pokemon/" +
+        search.toLowerCase().replace(/ /g, ""),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     let ress = await reqs.json();
-    console.log(ress);
+    setPokemon(ress.name);
+    setImage(ress.sprites.front_default);
+    setPrice(ress.weight);
+    Keyboard.dismiss();
   }
+
+  async function catchPokemon() {}
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -49,14 +58,31 @@ export default function Search({}) {
         <View className="flex-row space-x-4 items-center self-center mt-6 rounded">
           <TouchableOpacity
             onPress={searchPokemon}
-            className="w-20 h-[40px] bg-red-600 items-center justify-center"
+            className="w-20 h-[40px] bg-emerald-400 items-center justify-center"
           >
             <Text className="items-center justify-center self-center">
               PROCURAR
             </Text>
           </TouchableOpacity>
         </View>
-        {/* {message && <Text className="bg-black">{message}</Text>} */}
+        {image && (
+          <View className="flex ml-6 pl-3 w-40 h-68 top-4 border-2 border-red-400">
+            <Image
+              className="flex w-52 h-52 -my-14 -mx-9 items-center content-center"
+              source={{ uri: image }}
+            />
+            <View className="flex ml-4 mb-2">
+              <Text>Nome: {pokemon}</Text>
+              <Text>R$ {price}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={catchPokemon}
+              className="w-20 h-[40px] bg-red-400 left-7 items-center justify-center"
+            >
+              <Text>Capturar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
