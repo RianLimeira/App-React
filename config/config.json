@@ -19,5 +19,10 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
-  }
+  },
+
+  "urlRootNode": "http://192.168.100.141:8081/",
+  "urlRootPython": "http://192.168.100.141:8000/"
+
 }
+

@@ -129,7 +129,14 @@ export default function Home() {
         >
           <Text>BUSCAR</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity
+          className="w-20 h-[40px] bg-red-600 items-center justify-center"
+          onPress={() => {
+            navigation.navigate("Pokedex");
+          }}
+        >
+          <Text>POKEDEX</Text>
+        </TouchableOpacity>
       </View>
       <Separator />
       <Button title="DESLOGAR" onPress={logout} />
