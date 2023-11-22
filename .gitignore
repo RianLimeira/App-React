@@ -9,7 +9,13 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+venv
+Python_React/venv
+venv/
+.idea
+Python_React/.idea
+mysqlclient-1.4.6-cp39-cp39-win_amd64.whl
+Python_React/mysqlclient-1.4.6-cp39-cp39-win_amd64.whl
 
 # macOS
 .DS_Store
