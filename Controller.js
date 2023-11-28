@@ -57,6 +57,19 @@ app.post("/login", async (req, res) => {
     });
 });
 
+app.get("/logout", async (req, res) => {
+  db.sequelize
+    .close()
+    .then(() => {
+      console.log("Conexão encerrada com sucesso.");
+      res.send({ message: "Logout successful" }); // Envia uma resposta de volta ao cliente
+    })
+    .catch((err) => {
+      console.error("Erro ao encerrar a conexão:", err);
+      res.status(500).send({ message: "Error closing connection" }); // Envia uma resposta de erro de volta ao cliente
+    });
+});
+
 app.post("/create", async (req, res) => {
   console.log(req.body);
   let reqs = await User.create({
@@ -87,15 +100,11 @@ app.post("/pokemon/create", async (req, res) => {
   })
     .then(() => {
       console.log("Registrado");
-      res.send(
-        JSON.stringify("Capturado com sucesso")
-      );
+      res.send(JSON.stringify("Capturado com sucesso"));
     })
     .catch((err) => {
       console.error(err);
-      res.send(
-        JSON.stringify("Houve um problema de conexão!")
-      )
+      res.send(JSON.stringify("Houve um problema de conexão!"));
     });
 });
 

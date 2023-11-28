@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { Card } from "../../components/Card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Context } from "../../../context/Provider";
 
 import { getDatabase, ref, get, child } from "firebase/database";
 
@@ -45,7 +46,9 @@ const DATA = [
 export default function Home() {
   const [data, setData] = useState([]);
   const [nome, setNome] = useState("");
+  const [message, setMessage] = useState("");
 
+  const { pokemons } = useContext(Context);
   const navigation = useNavigation();
 
   // useEffect(() => {
@@ -91,15 +94,22 @@ export default function Home() {
   // Função para deslogar
   const logout = async () => {
     console.log("clicou");
-    // Limpa o estado do usuário
-    setData(null);
+    
 
-    // Limpa os dados do AsyncStorage
-    await AsyncStorage.removeItem("@app:user");
+    let user = axios
+      .get("http://192.168.100.141:8080/logout")
+      .then((res) => {
+        //console.log("Resposta da requisição:", res);
+        // Limpa o estado do usuário
+        setData(null);
 
-    // Navega para a tela de login ou outra tela inicial
-    console.log(data);
-    navigation.navigate("Main", { screen: "Login" });
+        // Limpa os dados do AsyncStorage
+        AsyncStorage.removeItem("@newapp:user");
+        console.log(data);
+        // Navega para a tela de login ou outra tela inicial
+        navigation.navigate("Main", { screen: "Login" });
+      })
+      .catch((err) => console.warn("Erro", err));
   };
 
   const Separator = () => <View style={styles.separator} />;
@@ -112,10 +122,11 @@ export default function Home() {
 
   return (
     <View className="flex flex-1 items-center bg-black pl-2">
-      <Text className="text-right right-28 mb-4 ml-4 mt-2 text-red-500">
+      <Text className="text-right right-28 mb-4 ml-10 mt-2 text-red-500">
         {" "}
-        Seja Bem Vindo {nome} !!!
+        Seja Bem Vindo {nome} !!! {pokemons}
       </Text>
+      <Text>{message}</Text>
       <Image
         className="w-screen h-52 mb-8"
         source={require("../../../assets/Images/logo.png")}
