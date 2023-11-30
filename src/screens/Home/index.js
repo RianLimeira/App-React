@@ -56,60 +56,72 @@ export default function Home() {
   // },[]);
 
   // Exemplo com axios
-  useFocusEffect(
+  useEffect(
     React.useCallback(() => {
-      //Firebase:
-      //       const dbRef = ref(getDatabase());
-      //       get(child(dbRef, `users/`)).then((snapshot) => {
-      //           if (snapshot.exists()) {
-      //               console.log(Object.values(snapshot.val()));
-      //               setData(Object.values(snapshot.val()));
-      //           } else {
-      //               console.log("No data available");
-      //           }
-      //       }).catch((error) => {
-      //           console.error(error);
-      //       });
-
       //MySql:
       let user = axios
         .get("http://192.168.100.141:8080/users")
-        .then((res) => {
-          res.data.users.forEach((element) => {
-            setNome(element["name"]);
-          });
-          setData(res.data.users);
+        .then((response) => {
+          if (!response.data.error) {
+            setNome(response.data.username);
+            setData(response.data.user);
+          } else {
+            navigation.navigate("Main", { screen: "Login" });
+            console.error(
+              "Erro ao obter o nome do usuário:",
+              response.data.message
+            );
+          }
         })
-        .catch((err) => console.warn(err));
+        .catch((error) => console.warn("Erro na solicitação: ", error));
     }, [])
   );
 
   // async storage armazena somente dados simples
   // Para guardar um JSON, se converte para uma string simples
-  // async function saveData(json){
-  //     const string = JSON.stringify(json)
-  //     await AsyncStorage.setItem('@rianApp:users',string)
-  //     alert('Usuario salvo na memoria');
+  // async function saveData(json) {
+  //   const string = JSON.stringify(json);
+  //   await AsyncStorage.setItem("@newpp:users", string);
+  //   alert("Usuario salvo na memoria");
   // }
   // Função para deslogar
   const logout = async () => {
     console.log("clicou");
-    
+    try {
+      const response = await fetch("http://192.168.100.141:8080/logout", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
-    let user = axios
-      .get("http://192.168.100.141:8080/logout")
-      .then((res) => {
-        //console.log("Resposta da requisição:", res);
+      // const data = await response.text();
+      // console.log(data)
+      // const cleanData = data.replace("<", "");
+
+      // // Converte a string em um objeto JSON
+      // const jsonData = JSON.parse(cleanData);
+      // console.log(jsonData);
+
+      // if (jsonData.error) {
+      //   console.error("Erro ao deslogar:", data.message);
+      //   return;
+      // }
+      if (response.data.success) {
+        console.log(Sucesso);
         // Limpa o estado do usuário
         setData(null);
-
         // Limpa os dados do AsyncStorage
         AsyncStorage.removeItem("@newapp:user");
-        console.log(data);
         // Navega para a tela de login ou outra tela inicial
         navigation.navigate("Main", { screen: "Login" });
-      })
-      .catch((err) => console.warn("Erro", err));
+      } else {
+        console.error("Erro ao fazer logout:", response.data.message);
+      }
+    } catch (err) {
+      console.error("Erro ao deslogar:", err);
+    }
   };
 
   const Separator = () => <View style={styles.separator} />;

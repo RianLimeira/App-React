@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Keyboard,
@@ -26,7 +27,11 @@ export default function Login() {
     return unsubscribe;
   }, [navigation]);
 
-
+  // async function saveData(json) {
+  //     const string = JSON.stringify(json);
+  //     await AsyncStorage.setItem("@newapp:user", string);
+  //     alert("Usuario salvo na memoria");
+  //   }
 
   async function handleGetUser() {
     console.log(users);

@@ -27,9 +27,7 @@ export default function Search({}) {
     let user = axios
       .get("http://192.168.100.141:8080/users")
       .then((res) => {
-        res.data.users.forEach((element) => {
-          setUser(element["id"]);
-        });
+        setUser(res.data.user.id);
       })
       .catch((err) => console.warn(err));
   }, []);

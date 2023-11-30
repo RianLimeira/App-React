@@ -1,10 +1,12 @@
 //Constantes
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./models/index.js");
 const user = require("./models/user.js");
 const pokemon = require("./models/pokemon.js");
+const AsyncStorage = require("@react-native-async-storage/async-storage");
 
 const User = db.User;
 const Pokemon = db.Pokemon;
@@ -17,14 +19,38 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Routes
+app.use(
+  session({
+    secret: 'secreto', // Uma string de segredo usada para assinar o cookie da sessão
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-app.get("/users", async (req, res) => {
-  const users = await User.findAll();
-  return res.status(200).json({
-    error: false,
-    message: "ok",
-    users,
-  });
+app.get("/users", (req, res) => {
+  try {
+    const user = req.session.user;
+
+    if (user) {
+      return res.status(200).json({
+        error: false,
+        message: 'ok',
+        username: user.name,
+        user
+      });
+    } else {
+      return res.status(401).json({
+        error: true,
+        message: "Usuário não autenticado"
+      });
+    }
+  } catch (error) {
+    console.error('Erro ao processar a rota /getUsername:', error);
+    return res.status(500).json({
+      error: true,
+      message: "Erro interno do servidor"
+    });
+  }
 });
 
 app.post("/login", async (req, res) => {
@@ -36,7 +62,8 @@ app.post("/login", async (req, res) => {
   })
     .then((user) => {
       if (user) {
-        // res.send(user)
+        req.session.user = user;
+        
         return res.status(200).json({
           error: false,
           message: "Reconhecido: " + user.name,
@@ -57,18 +84,60 @@ app.post("/login", async (req, res) => {
     });
 });
 
-app.get("/logout", async (req, res) => {
-  db.sequelize
-    .close()
-    .then(() => {
-      console.log("Conexão encerrada com sucesso.");
-      res.send({ message: "Logout successful" }); // Envia uma resposta de volta ao cliente
-    })
-    .catch((err) => {
-      console.error("Erro ao encerrar a conexão:", err);
-      res.status(500).send({ message: "Error closing connection" }); // Envia uma resposta de erro de volta ao cliente
+// app.post("/logout", function (req, res, next) {
+//   req.logout(function (err) {
+//     if (err) {
+//       return next(err);
+//     }
+//     res.redirect("/");
+//   });
+// });
+
+app.post("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Erro ao fazer logout :", err);
+        return res.status(500).json({
+          error: true,
+          message: "Erro ao fazer logout",
+        });
+      } else {
+        res.clearCookie('connect.sid'); // Limpar o cookie da sessão
+        console.log("Sessão encerrada com sucesso.");
+
+        return res.status(200).json({
+          error: false,
+          message: "Logout com sucesso",
+        });
+      }
     });
+  } else {
+    console.error("Sessão não inicializada.");
+    return res.status(400).json({
+      error: true,
+      message: "Session não iniciada",
+    });
+  }
 });
+
+// app.post("/logout", (req, res) => {
+//   req.session.destroy(err => {
+//     if (err) {
+//       console.error("Erro ao encerrar a sessão:", err);
+//       return res.status(500).json({
+//         error: true,
+//         message: "Error closing session",
+//       });
+//     } else {
+//       console.log("Sessão encerrada com sucesso.");
+//       return res.status(200).json({
+//         error: false,
+//         message: "Logout successful",
+//       });
+//     }
+//   });
+// });
 
 app.post("/create", async (req, res) => {
   console.log(req.body);
